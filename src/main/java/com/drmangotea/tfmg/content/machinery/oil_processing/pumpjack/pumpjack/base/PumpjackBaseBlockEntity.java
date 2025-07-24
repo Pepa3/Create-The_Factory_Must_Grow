@@ -58,15 +58,18 @@ public class PumpjackBaseBlockEntity extends SmartBlockEntity implements IHaveGo
             if (!(level.getBlockEntity(controllerHammer.getBlockPos()) instanceof PumpjackBlockEntity))
                 controllerHammer = null;
         if (controllerHammer != null)
+			controllerHammer.base = this;
+		/*
             if (controllerHammer.base == null)
-                controllerHammer = null;
+                controllerHammer = null;*/
 
         if (controllerHammer != null)
             if (!controllerHammer.isRunning())
                 controllerHammer = null;
 
-        if (controllerHammer == null)
-            return;
+        if (controllerHammer == null){
+			return;
+		}
         isRunning = controllerHammer.isRunning();
 
         if (!isRunning) {
@@ -85,8 +88,9 @@ public class PumpjackBaseBlockEntity extends SmartBlockEntity implements IHaveGo
         if (controllerHammer.crank != null)
             crank = controllerHammer.crank;
 
-        if (crank == null)
-            return;
+        if (crank == null){
+			return;
+		}
         miningRate = (int) Math.abs(crank.getMachineInputSpeed() * (crank.heightModifier));
         process();
 

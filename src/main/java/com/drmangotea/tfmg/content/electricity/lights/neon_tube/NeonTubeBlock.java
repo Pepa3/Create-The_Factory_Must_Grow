@@ -136,7 +136,15 @@ public class NeonTubeBlock extends PipeBlock implements IBE<NeonTubeBlockEntity>
             BlockState neighbourState = level.getBlockState(pos.relative(facing));
              if (neighbourState.is(TFMGBlocks.NEON_TUBE.get())) {
                  level.setBlockAndUpdate(pos.relative(facing), neighbourState.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(facing.getOpposite()), true));
-             }
+             }else if (neighbourState.is(TFMGBlocks.BRASS_CABLE_HUB.get()) ||
+						neighbourState.is(TFMGBlocks.COPPER_CABLE_HUB.get()) ||
+						neighbourState.is(TFMGBlocks.STEEL_CABLE_HUB.get()) ||
+						neighbourState.is(TFMGBlocks.ALUMINUM_CABLE_HUB.get()) ||
+						neighbourState.is(TFMGBlocks.STEEL_CASING_CABLE_HUB.get()) ||
+						neighbourState.is(TFMGBlocks.HEAVY_CABLE_HUB.get())
+			 ){
+				 level.setBlockAndUpdate(pos,state.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(facing), true));
+			 }
         }
         withBlockEntityDo(level,pos, IElectric::onPlaced);
         super.onPlace(state, level, pos, p_60569_, p_60570_);
@@ -144,6 +152,14 @@ public class NeonTubeBlock extends PipeBlock implements IBE<NeonTubeBlockEntity>
     }
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+		if(!newState.is(TFMGBlocks.NEON_TUBE.get())){
+			for(Direction facing : Direction.values()) {
+				BlockState neighbourState = level.getBlockState(pos.relative(facing));
+				 if (neighbourState.is(TFMGBlocks.NEON_TUBE.get())) {
+					 level.setBlockAndUpdate(pos.relative(facing), neighbourState.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(facing.getOpposite()), false));
+				 }
+			}
+		}
         IBE.onRemove(state, level, pos, newState);
     }
 
