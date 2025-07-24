@@ -9,6 +9,8 @@
 </div>
 
 <br>
+## Disclaimer
+This fork is made only for our server and has some balancing changes you may not like.
 
 ## Info
 
